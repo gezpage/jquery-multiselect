@@ -5,28 +5,30 @@
 (function($){
         $.fn.extend({
                 multiselect: function() {
-                        //Iterate over the current set of matched elements
-                        this.find('div label').live('hover', function() {
-                                console.log('hover')
-                                $(this).parent().children('label.sub').show();
-                        }, function() {
-                                var show = $(this).parent().children('label.main').hasClass('on') ? true : false;
-                                if (!show) {
-                                        $(this).parent().children('label.sub').hide();
+                        // Hover binding
+                        $('.multiselect div').live({
+                                mouseover: function() {
+                                        $(this).children('label.sub').show();
+                                },
+                                mouseout: function() {
+                                        if (!$(this).children('label.main').hasClass('on')) {
+                                                $(this).children('label.sub').hide();
+                                        }
                                 }
                         });
-
+                        // Click binding
+                        $('.multiselect div label').live('click', function() {
+                                change_state($(this));
+                        });
                         return this.each(function() {
-                                $(this).find('div label').live('click', function() {
-                                        var name = $(this).attr('for');
-                                        var $input = $('input[name="' + name + '"]');
-                                        var new_value = ($input.val() == 'on') ? 'off' : 'on';
-                                        var old_value = (new_value == 'on') ? 'off' : 'on';
-                                        $input.val(new_value);
-                                        $(this).addClass(new_value).removeClass(old_value);
-                                });
-                                $(this).find('div').each(function() {
+                                $div = $(this);
+                                // Apply class
+                                $div.addClass('multiselect');
+                                // Replace checkboxes with hidded input
+                                // And add classes for easy traversing
+                                $div.find('div').each(function() {
                                         var display = ($(this).find('input:first').is(':checked')) ? true : false;
+                                        // Add 'main' class to first element which will be the heading
                                         $(this).find('label:first').addClass('main');
                                         $(this).find('input').each(function() {
                                                 var name = $(this).attr('name');
@@ -49,8 +51,33 @@
                         });
                 }
         });
-
-        //pass jQuery to the function, 
-        //So that we will able to use any valid Javascript variable name 
-        //to replace "$" SIGN. But, we'll stick to $ (I like dollar sign: ) )       
+        function change_state($label) {
+                if ($label.hasClass('on')) {
+                        switch_off($label);
+                        if ($label.hasClass('main')) {
+                                $label.siblings('label.sub').each(function() {
+                                        switch_off($(this));
+                                });
+                        }
+                }
+                else {
+                        switch_on($label);
+                        if ($label.hasClass('sub')) {
+                                $label.siblings('label.main').each(function() {
+                                        switch_on($(this));
+                                });
+                        }
+                }
+        }
+        function switch_on($label) {
+                $input = $('input[name="' + $label.attr('for') + '"]');
+                $label.removeClass('off').addClass('on');
+                $input.val('on');
+        }
+        function switch_off($label) {
+                $input = $('input[name="' + $label.attr('for') + '"]');
+                $label.removeClass('on').addClass('off');
+                $input.val('off');
+        }
 })(jQuery);
+
