@@ -1,0 +1,58 @@
+<html>
+
+<head>
+
+<script type="text/javascript" src="jquery-1.7.1.min.js"></script>
+<script type="text/javascript" src="jquery-multiselect.js"></script>
+<link rel="stylesheet" href="jquery-multiselect.css" type="text/css" media="screen">
+
+<script type="">
+$(function() {
+        $('div#checkboxes').multiselect();
+});
+</script>
+
+</head>
+
+<body>
+
+<form>
+
+<div id="checkboxes">
+<div>
+        <label for="options[1][1]">Option 1</label>
+        <input type="checkbox" name="options[1][1]" checked="checked" />
+        <label for="options[1][2]">Option 2</label>
+        <input type="checkbox" name="options[1][2]" />
+        <label for="options[1][3]">Option 3</label>
+        <input type="checkbox" name="options[1][3]" checked="checked" />
+        <label for="options[1][4]">Option 4</label>
+        <input type="checkbox" name="options[1][4]" />
+        <label for="options[1][5]">Option 5</label>
+        <input type="checkbox" name="options[1][5]" />
+
+</div>
+
+<div>
+        <label for="options[2][1]">Option 1</label>
+        <input type="checkbox" name="options[2][1]" />
+        <label for="options[2][2]">Option 2</label>
+        <input type="checkbox" name="options[2][2]" />
+        <label for="options[2][3]">Option 3</label>
+        <input type="checkbox" name="options[2][3]" />
+        <label for="options[2][4]">Option 4</label>
+        <input type="checkbox" name="options[2][4]" />
+
+</div>
+
+
+</div>
+
+<div style="clear:both;"></div>
+
+<input type="submit"/>
+</form>
+
+</body>
+
+</html>
